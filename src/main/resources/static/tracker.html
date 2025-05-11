@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4><span id="welcome"></span></h4>
+            <a href="logout.html" class="btn btn-danger btn-sm">Logout</a>
+        </div>
+
+        <div class="card p-4 shadow-sm">
+            <h5 class="mb-3">Add Expense</h5>
+            <input type="text" id="category" class="form-control mb-2" placeholder="Category">
+            <input type="number" id="amount" class="form-control mb-2" placeholder="Amount">
+            <input type="text" id="description" class="form-control mb-3" placeholder="Description">
+            <button class="btn btn-primary w-100 mb-2" onclick="addExpense()">Add Expense</button>
+            <button class="btn btn-secondary w-100" onclick="downloadExpenses()">Download Expense Sheet</button>
+        </div>
+    </div>
+
+    <script>
+        const authHeader = localStorage.getItem("authHeader");
+        const username = localStorage.getItem("username");
+        document.getElementById("welcome").innerText = username;
+
+        function addExpense() {
+            const expense = {
+                category: document.getElementById("category").value,
+                amount: document.getElementById("amount").value,
+                description: document.getElementById("description").value
+            };
+
+            fetch("/expensetracker/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": authHeader
+                },
+                body: JSON.stringify(expense)
+            }).then(res => res.text())
+              .then(msg => alert(msg))
+              .catch(err => alert("Error: " + err));
+        }
+
+        function downloadExpenses() {
+            fetch("/expensetracker/download", {
+                headers: {
+                    "Authorization": authHeader
+                }
+            }).then(res => res.blob())
+              .then(blob => {
+                  const link = document.createElement("a");
+                  const url = URL.createObjectURL(blob);
+                  link.href = url;
+                  link.download = "expenses.xlsx";
+                  link.click();
+                  URL.revokeObjectURL(url);
+              })
+              .catch(err => alert("Error downloading: " + err));
+        }
+    </script>
+</body>
+</html>
