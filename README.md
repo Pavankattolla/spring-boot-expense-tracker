@@ -24,5 +24,4 @@ A secure and user-friendly Expense Tracker application built with **Spring Boot*
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/expense-tracker.git
-cd expense-tracker
+git clone https://github.com/Pavankattolla/spring-boot-expense-tracker.git
