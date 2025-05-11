@@ -4,7 +4,7 @@ A secure and user-friendly Expense Tracker application built with **Spring Boot*
 
 ## 🚀 Features
 
-- ✅ User Registration and Login using Spring Security (no JWT)
+- ✅ User Registration and Login using Spring Security 
 - 📝 Add daily expenses through the UI
 - 📅 Date is automatically handled by the backend
 - ⬇️ Download all expense data as an Excel file
